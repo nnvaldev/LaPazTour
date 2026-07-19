@@ -1,0 +1,61 @@
+---
+/**
+ * Shell del mapa: lista + canvas Leaflet.
+ */
+---
+<div class="map-shell overflow-hidden border border-azul-gob/15 backdrop-blur-sm dark:border-white/10">
+  <div class="grid lg:grid-cols-[minmax(0,340px)_1fr]">
+    <aside class="flex max-h-[520px] flex-col border-b border-azul-gob/10 dark:border-white/10 lg:max-h-[560px] lg:border-b-0 lg:border-r">
+      <div class="border-b border-azul-gob/10 px-4 py-3 dark:border-white/10">
+        <p class="text-xs font-semibold uppercase tracking-wider text-marino/50 dark:text-neon/70">Lugares</p>
+        <p id="contadorMarcadores" class="font-sans text-lg font-bold heading" aria-live="polite">
+          Cargando…
+        </p>
+      </div>
+      <ul
+        id="listaLugares"
+        class="flex-1 space-y-2 overflow-y-auto p-3"
+        role="listbox"
+        aria-label="Lista de lugares turísticos"
+      ></ul>
+    </aside>
+
+    <div class="relative">
+      <div
+        id="mapa"
+        class="h-[380px] w-full md:h-[480px] lg:h-[560px]"
+        role="region"
+        aria-label="Mapa interactivo de La Paz"
+      ></div>
+
+      <button
+        type="button"
+        id="btnUbicarme"
+        class="map-locate-btn"
+        title="Ir a mi ubicación"
+        aria-label="Centrar el mapa en mi ubicación actual"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
+          <circle cx="12" cy="12" r="8"></circle>
+        </svg>
+        <span class="map-locate-label">Mi ubicación</span>
+      </button>
+
+      <div
+        class="pointer-events-none absolute bottom-3 left-3 right-3 flex flex-wrap gap-2 sm:right-auto"
+        aria-hidden="true"
+      >
+        <span class="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-medium text-piedra shadow-md ring-1 ring-black/5 dark:bg-slate-900/95 dark:text-slate-200 dark:ring-white/10">
+          <span class="inline-block h-2.5 w-2.5 rounded-full bg-verde-ok"></span>
+          Accesible (silla de ruedas)
+        </span>
+        <span class="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-medium text-piedra shadow-md ring-1 ring-black/5 dark:bg-slate-900/95 dark:text-slate-200 dark:ring-white/10">
+          <span class="inline-block h-2.5 w-2.5 rounded-full bg-rojo-paz"></span>
+          Acceso limitado
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+---
+import { rutas } from '../data/data.js';
+
+const destacada = rutas.find((r) => r.destacada);
+const resto = rutas.filter((r) => !r.destacada);
+---
+
+{
+  destacada && (
+    <article class="ruta-express mb-10 p-6 pl-7 md:p-8 md:pl-9">
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+        <div class="max-w-xl">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rounded-full bg-dorado px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-marino dark:bg-neon dark:text-marino">
+              Solo en La Paz Tour
+            </span>
+            <span class="text-[11px] font-semibold uppercase tracking-wide text-verde-ok dark:text-neon">
+              100% accesible · silla de ruedas
+            </span>
+          </div>
+          <h3 class="mt-4 font-sans text-2xl font-extrabold heading md:text-3xl">{destacada.nombre}</h3>
+          <p class="text-soft mt-2 text-sm leading-relaxed md:text-base">
+            {destacada.descripcion}
+          </p>
+          <p class="mt-3 text-sm font-semibold text-dorado dark:text-neon">{destacada.duracion}</p>
+          <a href="#mapa-section" class="btn-accent mt-5">
+            Ver en el mapa
+          </a>
+        </div>
+
+        <ol class="flex flex-1 flex-col gap-2 sm:max-w-md">
+          {destacada.lugares.map((l, i) => (
+            <li class="ruta-step">
+              <span class="ruta-step-num">{i + 1}</span>
+              <span class="font-medium">{l}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </article>
+  )
+}
+
+<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+  {
+    resto.map((ruta) => (
+      <article class="border-t-2 border-dorado/40 pt-5 dark:border-neon/30">
+        <div class="flex flex-wrap items-center gap-2">
+          <p class="text-xs font-semibold uppercase tracking-widest text-dorado dark:text-neon">{ruta.duracion}</p>
+          {ruta.accesible && (
+            <span class="text-[10px] font-bold uppercase tracking-wide text-verde-ok dark:text-neon">· Accesible</span>
+          )}
+        </div>
+        <h3 class="mt-2 font-sans text-xl font-bold heading">{ruta.nombre}</h3>
+        <p class="text-soft mt-2 text-sm">{ruta.descripcion}</p>
+        <ul class="text-soft-xs mt-4 space-y-1.5 text-sm">
+          {ruta.lugares.map((l) => (
+            <li class="flex gap-2">
+              <span class="text-dorado dark:text-neon" aria-hidden="true">
+                ·
+              </span>
+              {l}
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))
+  }
+</div>

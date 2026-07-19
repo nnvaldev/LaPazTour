@@ -1,0 +1,20 @@
+---
+import { comercios } from '../data/data.js';
+---
+<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  {
+    comercios.map((c) => (
+      <article class="border-b border-dorado/25 pb-4 dark:border-neon/20">
+        <p class="text-xs font-semibold uppercase tracking-wider text-dorado dark:text-neon">{c.tipo}</p>
+        <h4 class="mt-1 font-sans text-lg font-bold heading">{c.nombre}</h4>
+        <p class="text-soft mt-2 text-sm">{c.direccion}</p>
+        <a
+          href={`tel:+591${c.telefono}`}
+          class="mt-1 inline-block text-sm font-medium text-marino underline-offset-2 hover:underline dark:text-celeste"
+        >
+          {c.telefono}
+        </a>
+      </article>
+    ))
+  }
+</div>

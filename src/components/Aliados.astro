@@ -1,0 +1,25 @@
+---
+import { aliados } from '../data/data.js';
+---
+<div class="overflow-x-auto">
+  <table class="w-full min-w-[520px] text-left text-sm">
+    <thead>
+      <tr class="border-b-2 border-dorado text-marino dark:border-neon dark:text-neon">
+        <th class="py-3 pr-4 font-semibold">Aliado</th>
+        <th class="py-3 pr-4 font-semibold">Tipo</th>
+        <th class="py-3 font-semibold">Aporte</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        aliados.map((a) => (
+          <tr class="border-b border-marino/10 dark:border-white/10">
+            <td class="py-3 pr-4 font-medium heading">{a.nombre}</td>
+            <td class="text-soft py-3 pr-4">{a.tipo}</td>
+            <td class="text-soft py-3">{a.aporte}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

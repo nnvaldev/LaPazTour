@@ -1,0 +1,499 @@
+---
+import Layout from '../components/Layout.astro';
+import Mapa from '../components/Mapa.astro';
+import Rutas from '../components/Rutas.astro';
+import Comercios from '../components/Comercios.astro';
+import Aliados from '../components/Aliados.astro';
+import AudioGuia from '../components/AudioGuia.astro';
+import Diferencial from '../components/Diferencial.astro';
+import '../styles/globals.css';
+import { lugares } from '../data/data.js';
+
+const accesibles = lugares.filter((l) => l.accesible).length;
+---
+
+<Layout title="La Paz Tour — La Paz sin barreras">
+  <header class="site-hero relative overflow-hidden">
+    <nav class="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <a href="/" class="font-sans text-lg font-bold tracking-tight text-white">
+        La Paz Tour
+        <span class="ml-1 text-dorado">·</span>
+      </a>
+      <div class="flex items-center gap-3 md:gap-6">
+        <div class="hidden gap-5 text-sm text-white/75 md:flex">
+          <a href="#por-que" class="transition hover:text-dorado">Por qué nosotros</a>
+          <a href="#mapa-section" class="transition hover:text-dorado">Mapa</a>
+          <a href="#rutas" class="transition hover:text-dorado">Rutas</a>
+          <a href="#comercios" class="transition hover:text-dorado">Comercios</a>
+        </div>
+        <button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false" aria-label="Cambiar a modo oscuro">
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5Z"></path>
+          </svg>
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div class="relative z-10 mx-auto max-w-6xl px-4 pb-8 pt-4 md:pb-10 md:pt-6">
+      <div class="grid items-end gap-6 md:grid-cols-[1.2fr_0.8fr]">
+        <div>
+          <p class="anim-fade-up inline-flex w-fit items-center gap-2 rounded-full bg-dorado/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-dorado ring-1 ring-dorado/40">
+            <span class="h-1.5 w-1.5 rounded-full bg-neon" aria-hidden="true"></span>
+            Accesibilidad real · La Paz
+          </p>
+          <h1 class="anim-fade-up anim-delay-1 mt-3 font-sans text-4xl font-extrabold leading-[1.08] text-white md:text-5xl">
+            La Paz Tour
+          </h1>
+          <p class="anim-fade-up anim-delay-2 mt-3 max-w-lg text-base text-white/80 md:text-lg">
+            Sabes <strong class="font-semibold text-dorado">si puedes entrar en silla de ruedas</strong>,
+            qué ruta hacer en 1.5 días y qué negocio local apoyar.
+          </p>
+          <div class="anim-fade-up anim-delay-2 mt-5 flex flex-wrap gap-3">
+            <a href="#accesibilidad" class="btn-accent">
+              Activar mapa accesible
+            </a>
+            <a
+              href="#por-que"
+              class="border border-white/30 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-dorado hover:text-dorado"
+            >
+              ¿Por qué no Maps?
+            </a>
+          </div>
+        </div>
+        <div class="anim-fade-up anim-delay-2 hidden rounded-sm border border-white/10 bg-white/5 p-4 backdrop-blur-sm md:block">
+          <p class="text-xs font-semibold uppercase tracking-wider text-dorado">En un vistazo</p>
+          <ul class="mt-3 space-y-2 text-sm text-white/80">
+            <li class="flex justify-between gap-4 border-b border-white/10 pb-2">
+              <span>Lugares accesibles</span>
+              <strong class="text-neon">{accesibles}</strong>
+            </li>
+            <li class="flex justify-between gap-4 border-b border-white/10 pb-2">
+              <span>Ruta sin barreras</span>
+              <strong class="text-dorado">Express</strong>
+            </li>
+            <li class="flex justify-between gap-4">
+              <span>Comercios locales</span>
+              <strong class="text-[#D6EEF8]">Sí</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-10 md:py-14">
+    <Diferencial />
+
+    <!-- Accesibilidad: filtro protagonista -->
+    <section
+      id="accesibilidad"
+      class="filter-panel filter-panel-box mb-10 p-5 md:p-7"
+      aria-labelledby="filtro-titulo"
+    >
+      <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div class="max-w-xl">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-dorado dark:text-neon">
+            Pruébalo ahora
+          </p>
+          <h2 id="filtro-titulo" class="mt-2 font-sans text-2xl font-extrabold heading md:text-3xl">
+            Un clic. Solo lugares sin barreras.
+          </h2>
+          <p class="text-soft mt-2">
+            Esto es lo que Maps no te da: activa el filtro y el mapa deja solo sitios
+            con rampas, baños adaptados o acceso apto para silla de ruedas.
+          </p>
+        </div>
+
+        <label
+          for="filtroAccesible"
+          class="flex min-w-[280px] cursor-pointer items-center gap-4 rounded-2xl bg-dorado/15 px-5 py-4 ring-1 ring-dorado/35 transition hover:ring-dorado/55 dark:bg-neon/15 dark:ring-neon/40 dark:hover:ring-neon/60"
+        >
+          <span class="flex h-12 w-12 items-center justify-center rounded-full bg-marino text-dorado dark:bg-neon dark:text-marino" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="12" cy="5" r="2.2"></circle>
+              <path d="M12 7.5v4.5l3.5 2.5"></path>
+              <path d="M7 20.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"></path>
+              <path d="M17 20.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"></path>
+              <path d="M9.5 15.5h5"></path>
+              <path d="M12 12v3.5"></path>
+            </svg>
+          </span>
+          <span class="flex-1">
+            <span class="block text-sm font-bold heading">Solo accesibles</span>
+            <span class="text-soft-xs block text-xs">Silla de ruedas · rampas · baños</span>
+          </span>
+          <input type="checkbox" id="filtroAccesible" class="sr-only" />
+          <span class="toggle-track" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <div class="mt-5 flex flex-wrap gap-2 text-xs">
+        <span class="rounded-full bg-celeste px-3 py-1 font-medium text-marino dark:bg-marino dark:text-[#D6EEF8]">Turistas</span>
+        <span class="rounded-full bg-verde-ok/15 px-3 py-1 font-medium text-verde-ok dark:bg-neon/15 dark:text-neon">Silla de ruedas</span>
+        <span class="rounded-full bg-rosa/30 px-3 py-1 font-medium text-marino dark:bg-rosa/25 dark:text-rosa">Familias</span>
+        <span class="rounded-full bg-amarillo/30 px-3 py-1 font-medium text-marino dark:bg-amarillo/20 dark:text-amarillo">1.5 días</span>
+      </div>
+    </section>
+
+    <!-- Mapa -->
+    <section id="mapa-section" class="mb-20 scroll-mt-6">
+      <div class="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h2 class="font-sans text-3xl font-extrabold heading md:text-4xl">Mapa interactivo</h2>
+          <p class="text-soft mt-2 max-w-xl">
+            Toca un lugar en la lista o en el mapa. Verás foto, si es accesible y cómo llegar.
+          </p>
+        </div>
+        <button
+          type="button"
+          id="btnResetMapa"
+          class="self-start text-sm font-semibold text-dorado underline-offset-2 hover:underline dark:text-neon"
+        >
+          Ver toda La Paz
+        </button>
+      </div>
+      <Mapa />
+    </section>
+
+    <!-- Audio Guía -->
+    <section id="audio" class="mb-20 scroll-mt-6">
+      <h2 class="font-sans text-3xl font-extrabold heading">Audio guía</h2>
+      <p class="text-soft mt-2 mb-8 max-w-xl">
+        Escucha descripciones breves mientras recorres la ciudad.
+      </p>
+      <AudioGuia />
+    </section>
+
+    <!-- Rutas -->
+    <section id="rutas" class="mb-20 scroll-mt-6">
+      <h2 class="font-sans text-3xl font-extrabold heading">Rutas turísticas</h2>
+      <p class="text-soft mt-2 mb-8 max-w-xl">
+        Itinerarios listos — incluyendo la Ruta Accesible Express, que no encontrarás en otras apps.
+      </p>
+      <Rutas />
+    </section>
+
+    <!-- Comercios -->
+    <section id="comercios" class="mb-20 scroll-mt-6">
+      <h2 class="font-sans text-3xl font-extrabold heading">Comercios locales</h2>
+      <p class="text-soft mt-2 mb-8 max-w-xl">
+        Apoya a artesanos, cafés y negocios del barrio.
+      </p>
+      <Comercios />
+    </section>
+
+    <!-- Aliados -->
+    <section id="aliados" class="mb-16 scroll-mt-6">
+      <h2 class="font-sans text-3xl font-extrabold heading">Nuestros aliados</h2>
+      <p class="text-soft mt-2 mb-8 max-w-xl">
+        Incluye a FEDEBOL y otros socios que validan la accesibilidad real.
+      </p>
+      <Aliados />
+    </section>
+
+    <footer class="border-t border-marino/15 py-10 text-center text-sm text-soft dark:border-white/10">
+      <p>© 2026 La Paz Tour — La Paz sin barreras, con economía local</p>
+    </footer>
+  </main>
+</Layout>
+
+<script>
+  import { lugares } from '../data/data.js';
+
+  /** @type {any} */
+  let mapa = null;
+  /** @type {any} */
+  let capaTiles = null;
+  /** @type {any} */
+  let marcadorUsuario = null;
+  /** @type {Map<number, any>} */
+  const marcadoresById = new Map();
+  /** @type {number | null} */
+  let seleccionadoId = null;
+
+  const CENTRO_LA_PAZ = { lat: -16.5, lng: -68.15, zoom: 13 };
+
+  function urlTiles() {
+    // Estilo azul tipo Google Maps (nunca negro)
+    return 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png';
+  }
+
+  function aplicarCapaTiles() {
+    if (!mapa || !window.L) return;
+    if (capaTiles) mapa.removeLayer(capaTiles);
+    capaTiles = window.L.tileLayer(urlTiles(), {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      maxZoom: 19,
+      subdomains: 'abcd',
+    }).addTo(mapa);
+
+    const el = document.getElementById('mapa');
+    if (el) el.style.background = '#d4e4f0';
+  }
+
+  function iconoUsuario() {
+    return window.L.divIcon({
+      className: '',
+      html: `<div style="
+        width:18px;height:18px;border-radius:50%;
+        background:#2563eb;border:3px solid #fff;
+        box-shadow:0 0 0 6px rgba(37,99,235,.25),0 2px 8px rgba(0,0,0,.3);
+      "></div>`,
+      iconSize: [18, 18],
+      iconAnchor: [9, 9],
+    });
+  }
+
+  function centrarLaPaz() {
+    if (!mapa) return;
+    mapa.flyTo([CENTRO_LA_PAZ.lat, CENTRO_LA_PAZ.lng], CENTRO_LA_PAZ.zoom, { duration: 0.8 });
+  }
+
+  function mostrarUbicacionUsuario(lat, lng) {
+    if (!mapa || !window.L) return;
+    if (marcadorUsuario) mapa.removeLayer(marcadorUsuario);
+    marcadorUsuario = window.L.marker([lat, lng], {
+      title: 'Tu ubicación',
+      icon: iconoUsuario(),
+      zIndexOffset: 1000,
+    }).addTo(mapa);
+    marcadorUsuario.bindPopup('<strong>Estás aquí</strong>');
+    mapa.flyTo([lat, lng], 15, { duration: 0.9 });
+    setTimeout(() => marcadorUsuario.openPopup(), 500);
+  }
+
+  function ubicarme() {
+    const btn = /** @type {HTMLButtonElement | null} */ (document.getElementById('btnUbicarme'));
+    if (!mapa) return;
+
+    const listo = () => {
+      if (btn) {
+        btn.disabled = false;
+        btn.setAttribute('aria-busy', 'false');
+      }
+    };
+
+    if (!navigator.geolocation) {
+      centrarLaPaz();
+      listo();
+      return;
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        mostrarUbicacionUsuario(pos.coords.latitude, pos.coords.longitude);
+        listo();
+      },
+      () => {
+        // Sin permiso, error o timeout → centra La Paz
+        centrarLaPaz();
+        listo();
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+    );
+  }
+
+  function iconoLugar(lugar, activo = false) {
+    const ok = lugar.accesible;
+    const symbol = ok ? '♿' : '·';
+    return window.L.divIcon({
+      className: '',
+      html: `<div class="map-pin ${ok ? 'is-ok' : 'is-no'} ${activo ? 'is-active' : ''}"><span>${symbol}</span></div>`,
+      iconSize: [34, 34],
+      iconAnchor: [17, 30],
+      popupAnchor: [0, -28],
+    });
+  }
+
+  function popupHtml(lugar) {
+    const badge = lugar.accesible
+      ? `<span class="badge ok">♿ Accesible en silla de ruedas</span>`
+      : `<span class="badge no">Acceso limitado</span>`;
+    const tags = (lugar.features || [])
+      .map((f) => `<span>${f}</span>`)
+      .join('');
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lugar.lat},${lugar.lng}`;
+
+    return `
+      <div class="marker-popup">
+        <img src="${lugar.foto}" alt="${lugar.nombre}" loading="lazy" />
+        <div class="body">
+          <h3>${lugar.nombre}</h3>
+          <p class="desc">${lugar.descripcion}</p>
+          ${badge}
+          <div class="tags">${tags}</div>
+          <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer">Cómo llegar →</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function actualizarContador(n, soloAccesibles) {
+    const el = document.getElementById('contadorMarcadores');
+    if (!el) return;
+    el.textContent = soloAccesibles
+      ? `${n} lugar${n === 1 ? '' : 'es'} accesible${n === 1 ? '' : 's'}`
+      : `${n} lugares en el mapa`;
+  }
+
+  function renderLista(lista) {
+    const ul = document.getElementById('listaLugares');
+    if (!ul) return;
+    ul.innerHTML = lista
+      .map(
+        (l) => `
+      <li>
+        <button
+          type="button"
+          class="lugar-item flex w-full items-start gap-3 rounded-xl border border-transparent px-3 py-3 text-left font-sans ${seleccionadoId === l.id ? 'is-selected' : ''}"
+          data-id="${l.id}"
+          role="option"
+          aria-selected="${seleccionadoId === l.id}"
+        >
+          <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm ${
+            l.accesible ? 'lugar-badge-ok' : 'lugar-badge-no'
+          }" aria-hidden="true">${l.accesible ? '♿' : '!'}</span>
+          <span class="min-w-0">
+            <span class="block truncate font-semibold heading">${l.nombre}</span>
+            <span class="text-soft-xs mt-0.5 block text-xs">${l.ruta} · ${
+              l.accesible ? 'Accesible' : 'Acceso limitado'
+            }</span>
+          </span>
+        </button>
+      </li>`
+      )
+      .join('');
+
+    ul.querySelectorAll('[data-id]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.getAttribute('data-id'));
+        enfocarLugar(id);
+      });
+    });
+  }
+
+  function limpiarMarcadores() {
+    marcadoresById.forEach((m) => mapa.removeLayer(m));
+    marcadoresById.clear();
+  }
+
+  function agregarMarcadores(lista) {
+    lista.forEach((lugar) => {
+      const marker = window.L.marker([lugar.lat, lugar.lng], {
+        title: lugar.nombre,
+        icon: iconoLugar(lugar, seleccionadoId === lugar.id),
+        riseOnHover: true,
+      }).addTo(mapa);
+
+      marker.bindPopup(popupHtml(lugar), { maxWidth: 280 });
+      marker.on('click', () => {
+        seleccionadoId = lugar.id;
+        resaltarMarcadores();
+        renderLista(listaVisible());
+        const item = document.querySelector(`[data-id="${lugar.id}"]`);
+        item?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+
+      marcadoresById.set(lugar.id, marker);
+    });
+  }
+
+  function resaltarMarcadores() {
+    marcadoresById.forEach((marker, id) => {
+      const lugar = lugares.find((l) => l.id === id);
+      if (!lugar) return;
+      marker.setIcon(iconoLugar(lugar, id === seleccionadoId));
+    });
+  }
+
+  function listaVisible() {
+    const filtro = /** @type {HTMLInputElement | null} */ (document.getElementById('filtroAccesible'));
+    const solo = filtro?.checked ?? false;
+    return solo ? lugares.filter((l) => l.accesible) : lugares;
+  }
+
+  function aplicarFiltro() {
+    const filtro = /** @type {HTMLInputElement | null} */ (document.getElementById('filtroAccesible'));
+    const solo = filtro?.checked ?? false;
+    const panel = document.querySelector('.filter-panel');
+    panel?.classList.toggle('is-active', solo);
+
+    const lista = listaVisible();
+    if (seleccionadoId && !lista.some((l) => l.id === seleccionadoId)) {
+      seleccionadoId = null;
+    }
+
+    limpiarMarcadores();
+    agregarMarcadores(lista);
+    renderLista(lista);
+    actualizarContador(lista.length, solo);
+
+    if (lista.length > 0) {
+      const bounds = window.L.latLngBounds(lista.map((l) => [l.lat, l.lng]));
+      mapa.fitBounds(bounds.pad(0.18));
+    }
+  }
+
+  function enfocarLugar(id) {
+    const lugar = lugares.find((l) => l.id === id);
+    const marker = marcadoresById.get(id);
+    if (!lugar || !marker) return;
+
+    seleccionadoId = id;
+    resaltarMarcadores();
+    renderLista(listaVisible());
+    mapa.flyTo([lugar.lat, lugar.lng], 16, { duration: 0.85 });
+    setTimeout(() => marker.openPopup(), 500);
+  }
+
+  function iniciarMapa() {
+    const el = document.getElementById('mapa');
+    if (!el || !window.L) return;
+
+    mapa = window.L.map(el, {
+      zoomControl: false,
+      scrollWheelZoom: true,
+    }).setView([-16.5, -68.15], 13);
+
+    window.L.control.zoom({ position: 'topright' }).addTo(mapa);
+    aplicarCapaTiles();
+
+    aplicarFiltro();
+
+    document.getElementById('filtroAccesible')?.addEventListener('change', aplicarFiltro);
+    document.getElementById('btnResetMapa')?.addEventListener('click', () => {
+      seleccionadoId = null;
+      aplicarFiltro();
+    });
+    document.getElementById('btnUbicarme')?.addEventListener('click', ubicarme);
+
+    window.addEventListener('lpt-theme-change', () => {
+      aplicarCapaTiles();
+      setTimeout(() => mapa.invalidateSize(), 50);
+    });
+
+    setTimeout(() => mapa.invalidateSize(), 120);
+    window.addEventListener('resize', () => mapa.invalidateSize());
+  }
+
+  function esperarLeaflet() {
+    if (window.L) iniciarMapa();
+    else setTimeout(esperarLeaflet, 50);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', esperarLeaflet);
+  } else {
+    esperarLeaflet();
+  }
+</script>
