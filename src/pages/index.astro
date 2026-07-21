@@ -4,7 +4,6 @@ import Mapa from '../components/Mapa.astro';
 import Rutas from '../components/Rutas.astro';
 import Comercios from '../components/Comercios.astro';
 import Aliados from '../components/Aliados.astro';
-import AudioGuia from '../components/AudioGuia.astro';
 import Diferencial from '../components/Diferencial.astro';
 import Conversor from '../components/Conversor.astro';
 import Experiencias from '../components/Experiencias.astro';
@@ -169,15 +168,6 @@ const accesibles = lugares.filter((l) => l.accesible && !l.ocultoLista).length;
     </section>
 
     <Experiencias />
-
-    <!-- Audio Guía -->
-    <section id="audio" class="mb-20 scroll-mt-6">
-      <h2 class="font-sans text-3xl font-extrabold heading" data-i18n="audio.title">Audio guía</h2>
-      <p class="text-soft mt-2 mb-8 max-w-xl" data-i18n="audio.sub">
-        Escucha descripciones breves mientras recorres la ciudad.
-      </p>
-      <AudioGuia />
-    </section>
 
     <!-- Comercios -->
     <section id="comercios" class="mb-20 scroll-mt-6">
