@@ -1,0 +1,168 @@
+---
+import { experiencias } from '../data/data.js';
+---
+<section id="experiencias" class="mb-16 scroll-mt-6" aria-labelledby="exp-titulo">
+  <div class="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div class="max-w-2xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-dorado dark:text-neon" data-i18n="exp.eyebrow">
+        Reserva como en GetYourGuide
+      </p>
+      <h2 id="exp-titulo" class="mt-2 font-sans text-3xl font-extrabold heading md:text-4xl" data-i18n="exp.title">
+        Experiencias listas para comprar
+      </h2>
+      <p class="text-soft mt-2" data-i18n="exp.sub">
+        Checkout demo con datos ficticios — aún sin convenio real.
+      </p>
+    </div>
+    <p class="text-xs font-semibold text-marino/50 dark:text-neon/70" data-i18n="exp.commission">Comisión demo · 12–18%</p>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    {
+      experiencias.map((e) => (
+        <article class="exp-card flex flex-col border border-marino/10 bg-white p-5 dark:border-neon/20 dark:bg-[#143454]">
+          <div class="flex flex-wrap items-center gap-2">
+            {e.badge && (
+              <span class="rounded-full bg-dorado px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-marino">
+                {e.badge}
+              </span>
+            )}
+            {e.accesible && (
+              <span class="rounded-full bg-verde-ok/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-verde-ok dark:bg-neon/15 dark:text-neon" data-i18n="exp.accessible">
+                Accesible
+              </span>
+            )}
+          </div>
+          <h3 class="mt-3 font-sans text-xl font-extrabold heading">{e.titulo}</h3>
+          <p class="text-soft mt-1 text-sm">{e.bajada}</p>
+          <p class="mt-3 text-sm text-marino/70 dark:text-[#c8d7ea]">
+            ⭐ {e.rating} · {e.reviews} <span data-i18n="exp.reviews">reseñas</span> · {e.duracion}
+          </p>
+          <ul class="text-soft-xs mt-3 flex flex-wrap gap-2 text-xs">
+            {e.incluye.map((i) => (
+              <li class="rounded-full bg-celeste/80 px-2.5 py-1 text-marino dark:bg-marino dark:text-[#D6EEF8]">{i}</li>
+            ))}
+          </ul>
+          <div class="mt-auto flex items-center justify-between gap-3 pt-5">
+            <p class="font-extrabold text-marino dark:text-neon">
+              <span data-i18n="exp.from">desde</span> <span data-price-bob={e.precioBob}>Bs {e.precioBob}</span>
+            </p>
+            <button
+              type="button"
+              class="btn-accent btn-comprar"
+              data-exp-id={e.id}
+              data-exp-titulo={e.titulo}
+              data-exp-precio={e.precioBob}
+              data-i18n="exp.book"
+            >
+              Reservar
+            </button>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<!-- Modal compra ficticia -->
+<div id="modalCompra" class="modal-compra" hidden aria-hidden="true">
+  <div class="modal-compra-backdrop" data-close-modal></div>
+  <div class="modal-compra-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+    <button type="button" class="modal-close" data-close-modal aria-label="Cerrar">×</button>
+    <p class="text-xs font-bold uppercase tracking-wider text-dorado" data-i18n="modal.eyebrow">Checkout demo</p>
+    <h3 id="modalTitulo" class="mt-2 font-sans text-2xl font-extrabold heading">Experiencia</h3>
+    <p class="text-soft mt-2 text-sm" data-i18n="modal.sub">
+      Datos ficticios. Al confirmar verás un código de reserva falso — listo para el pitch.
+    </p>
+
+    <form id="formCompra" class="mt-5 space-y-3">
+      <label class="block text-sm">
+        <span class="font-semibold heading" data-i18n="modal.name">Nombre</span>
+        <input required name="nombre" class="mt-1 w-full border border-marino/15 px-3 py-2 dark:border-white/15 dark:bg-marino" placeholder="Alex Tourist" />
+      </label>
+      <label class="block text-sm">
+        <span class="font-semibold heading" data-i18n="modal.email">Email</span>
+        <input required type="email" name="email" class="mt-1 w-full border border-marino/15 px-3 py-2 dark:border-white/15 dark:bg-marino" placeholder="alex@mail.com" />
+      </label>
+      <label class="block text-sm">
+        <span class="font-semibold heading" data-i18n="modal.date">Fecha</span>
+        <input required type="date" name="fecha" class="mt-1 w-full border border-marino/15 px-3 py-2 dark:border-white/15 dark:bg-marino" />
+      </label>
+      <label class="block text-sm">
+        <span class="font-semibold heading" data-i18n="modal.people">Personas</span>
+        <input required type="number" name="personas" min="1" max="12" value="2" class="mt-1 w-full border border-marino/15 px-3 py-2 dark:border-white/15 dark:bg-marino" />
+      </label>
+      <p class="text-sm font-bold heading">
+        <span data-i18n="modal.total">Total estimado:</span> <span id="modalTotal" data-price-bob="0">Bs 0</span>
+      </p>
+      <p class="text-[11px] text-marino/50 dark:text-white/40" data-i18n="modal.pay">
+        Tarjeta · QR · transferencia (maqueta). Sin cobro real.
+      </p>
+      <button type="submit" class="btn-accent w-full text-center" data-i18n="modal.confirm">Confirmar reserva demo</button>
+    </form>
+
+    <div id="modalExito" class="mt-4 hidden rounded-sm border border-verde-ok/40 bg-verde-ok/10 p-4 dark:border-neon/40 dark:bg-neon/10">
+      <p class="font-bold text-verde-ok dark:text-neon" data-i18n="modal.ok">¡Reservado (demo)!</p>
+      <p class="mt-1 text-sm heading"><span data-i18n="modal.code">Código:</span> <strong id="codigoReserva">LPT-0000</strong></p>
+      <p class="text-soft-xs mt-2 text-xs" data-i18n="modal.saved">Guárdalo para el pitch. En producción iría al correo del aliado.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('modalCompra');
+  const form = /** @type {HTMLFormElement | null} */ (document.getElementById('formCompra'));
+  let precioUnit = 0;
+
+  function openModal(titulo, precio) {
+    precioUnit = Number(precio) || 0;
+    const t = document.getElementById('modalTitulo');
+    if (t) t.textContent = titulo;
+    const exito = document.getElementById('modalExito');
+    exito?.classList.add('hidden');
+    form?.reset();
+    const personas = /** @type {HTMLInputElement | null} */ (form?.elements.namedItem('personas'));
+    if (personas) personas.value = '2';
+    updateTotal();
+    modal?.removeAttribute('hidden');
+    modal?.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeModal() {
+    modal?.setAttribute('hidden', '');
+    modal?.setAttribute('aria-hidden', 'true');
+  }
+
+  function updateTotal() {
+    const personas = Number(/** @type {HTMLInputElement | null} */ (form?.elements.namedItem('personas'))?.value) || 1;
+    const total = precioUnit * personas;
+    const el = document.getElementById('modalTotal');
+    if (!el) return;
+    el.setAttribute('data-price-bob', String(total));
+    const fmt = window.lptFormatPrecio;
+    const code = window.lptGetMoneda?.() || 'USD';
+    el.textContent = fmt ? fmt(total, code) : `Bs ${total}`;
+  }
+
+  document.querySelectorAll('.btn-comprar').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      openModal(btn.getAttribute('data-exp-titulo') || 'Experiencia', btn.getAttribute('data-exp-precio'));
+    });
+  });
+
+  document.querySelectorAll('[data-close-modal]').forEach((el) => {
+    el.addEventListener('click', closeModal);
+  });
+
+  form?.elements.namedItem('personas')?.addEventListener('input', updateTotal);
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const code = `LPT-${Math.floor(1000 + Math.random() * 9000)}`;
+    const c = document.getElementById('codigoReserva');
+    if (c) c.textContent = code;
+    document.getElementById('modalExito')?.classList.remove('hidden');
+  });
+
+  window.addEventListener('lpt-currency-change', updateTotal);
+</script>

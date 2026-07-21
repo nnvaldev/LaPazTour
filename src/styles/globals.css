@@ -592,28 +592,131 @@ html.dark .map-locate-btn:hover {
   background: #1a4468;
 }
 
-@media (max-width: 480px) {
-  .map-locate-label {
-    display: none;
-  }
-
-  .map-locate-btn {
-    padding: 0.65rem;
-  }
+.chip-moneda.is-active {
+  background: #0b1f3a;
+  color: #c9a227;
+  ring-color: transparent;
 }
 
-.theme-toggle {
-  display: inline-flex;
+html.dark .chip-moneda.is-active {
+  background: #2fffa0;
+  color: #0b1f3a;
+}
+
+.chip-moneda:hover {
+  background: rgba(201, 162, 39, 0.15);
+}
+
+html.dark .chip-moneda:hover {
+  background: rgba(47, 255, 160, 0.12);
+}
+
+.modal-compra {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 1px solid rgba(201, 162, 39, 0.45);
-  background: rgba(201, 162, 39, 0.15);
-  color: #f5c542;
+  padding: 1rem;
+}
+
+.modal-compra[hidden] {
+  display: none !important;
+}
+
+.modal-compra-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 31, 58, 0.65);
+}
+
+.modal-compra-panel {
+  position: relative;
+  z-index: 1;
+  width: min(440px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #fff;
+  padding: 1.5rem;
+  border: 1px solid rgba(201, 162, 39, 0.35);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .modal-compra-panel {
+  background: #143454;
+  border-color: rgba(47, 255, 160, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.85rem;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  color: inherit;
+}
+
+.route-step-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #c9a227;
+  color: #0b1f3a;
+  font-size: 12px;
+  font-weight: 800;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html.dark .route-step-pin {
+  background: #2fffa0;
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.35rem 0.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.lang-btn:hover {
+  color: #fff;
+}
+
+.lang-btn.is-active {
+  background: #c9a227;
+  color: #0b1f3a;
+}
+
+html.dark .lang-btn.is-active {
+  background: #2fffa0;
+  color: #0b1f3a;
 }
 
 .theme-toggle:hover {

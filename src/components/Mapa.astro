@@ -1,14 +1,33 @@
 ---
-/**
- * Shell del mapa: lista + canvas Leaflet.
- */
+import { rutas } from '../data/data.js';
 ---
 <div class="map-shell overflow-hidden border border-azul-gob/15 backdrop-blur-sm dark:border-white/10">
+  <div class="border-b border-azul-gob/10 px-3 py-3 dark:border-white/10 sm:px-4">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <label class="flex flex-1 flex-col gap-1 text-sm sm:flex-row sm:items-center sm:gap-3">
+        <span class="shrink-0 text-xs font-bold uppercase tracking-wide text-marino/60 dark:text-neon/80" data-i18n="map.route">Ruta guía</span>
+        <select
+          id="selectRuta"
+          class="w-full border border-marino/15 bg-white px-3 py-2 text-sm font-semibold text-marino outline-none focus:border-dorado dark:border-white/15 dark:bg-marino dark:text-white"
+        >
+          <option value="">Todas las atracciones</option>
+          {rutas.map((r) => (
+            <option value={r.id}>{r.nombre} · {r.duracion}</option>
+          ))}
+        </select>
+      </label>
+      <button type="button" id="btnLimpiarRuta" class="text-xs font-semibold text-dorado underline-offset-2 hover:underline dark:text-neon" data-i18n="map.clear">
+        Quitar línea
+      </button>
+    </div>
+    <p id="rutaActivaHint" class="text-soft-xs mt-2 text-xs" aria-live="polite"></p>
+  </div>
+
   <div class="grid lg:grid-cols-[minmax(0,340px)_1fr]">
     <aside class="flex max-h-[520px] flex-col border-b border-azul-gob/10 dark:border-white/10 lg:max-h-[560px] lg:border-b-0 lg:border-r">
       <div class="border-b border-azul-gob/10 px-4 py-3 dark:border-white/10">
-        <p class="text-xs font-semibold uppercase tracking-wider text-marino/50 dark:text-neon/70">Lugares</p>
-        <p id="contadorMarcadores" class="font-sans text-lg font-bold heading" aria-live="polite">
+        <p class="text-xs font-semibold uppercase tracking-wider text-marino/50 dark:text-neon/70" data-i18n="map.stops">Paradas</p>
+        <p id="contadorMarcadores" class="font-sans text-lg font-bold heading" aria-live="polite" data-i18n="map.loading">
           Cargando…
         </p>
       </div>
@@ -40,7 +59,7 @@
           <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
           <circle cx="12" cy="12" r="8"></circle>
         </svg>
-        <span class="map-locate-label">Mi ubicación</span>
+        <span class="map-locate-label" data-i18n="map.locate">Mi ubicación</span>
       </button>
 
       <div
@@ -49,11 +68,15 @@
       >
         <span class="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-medium text-piedra shadow-md ring-1 ring-black/5 dark:bg-slate-900/95 dark:text-slate-200 dark:ring-white/10">
           <span class="inline-block h-2.5 w-2.5 rounded-full bg-verde-ok"></span>
-          Accesible (silla de ruedas)
+          <span data-i18n="map.legend.ok">Accesible</span>
         </span>
         <span class="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-medium text-piedra shadow-md ring-1 ring-black/5 dark:bg-slate-900/95 dark:text-slate-200 dark:ring-white/10">
           <span class="inline-block h-2.5 w-2.5 rounded-full bg-rojo-paz"></span>
-          Acceso limitado
+          <span data-i18n="map.legend.no">Acceso limitado</span>
+        </span>
+        <span class="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-medium text-piedra shadow-md ring-1 ring-black/5 dark:bg-slate-900/95 dark:text-slate-200 dark:ring-white/10">
+          <span class="inline-block h-1 w-4 rounded-full bg-dorado"></span>
+          <span data-i18n="map.legend.line">Línea guía</span>
         </span>
       </div>
     </div>

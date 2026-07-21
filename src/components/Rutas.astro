@@ -1,8 +1,13 @@
 ---
-import { rutas } from '../data/data.js';
+import { rutas, lugares } from '../data/data.js';
 
+const byId = Object.fromEntries(lugares.map((l) => [l.id, l]));
 const destacada = rutas.find((r) => r.destacada);
 const resto = rutas.filter((r) => !r.destacada);
+
+function nombres(ids) {
+  return ids.map((id) => byId[id]?.nombre).filter(Boolean);
+}
 ---
 
 {
@@ -11,25 +16,31 @@ const resto = rutas.filter((r) => !r.destacada);
       <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div class="max-w-xl">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="rounded-full bg-dorado px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-marino dark:bg-neon dark:text-marino">
+            <span class="rounded-full bg-dorado px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-marino dark:bg-neon dark:text-marino" data-i18n="routes.only">
               Solo en La Paz Tour
             </span>
-            <span class="text-[11px] font-semibold uppercase tracking-wide text-verde-ok dark:text-neon">
+            <span class="text-[11px] font-semibold uppercase tracking-wide text-verde-ok dark:text-neon" data-i18n="routes.100">
               100% accesible · silla de ruedas
             </span>
           </div>
           <h3 class="mt-4 font-sans text-2xl font-extrabold heading md:text-3xl">{destacada.nombre}</h3>
-          <p class="text-soft mt-2 text-sm leading-relaxed md:text-base">
-            {destacada.descripcion}
+          <p class="text-soft mt-2 text-sm leading-relaxed md:text-base">{destacada.descripcion}</p>
+          <p class="mt-3 text-sm font-semibold text-dorado dark:text-neon">
+            {destacada.duracion} · <span data-i18n="routes.from">desde</span>{' '}
+            <span data-price-bob={destacada.precioBob}>Bs {destacada.precioBob}</span>
           </p>
-          <p class="mt-3 text-sm font-semibold text-dorado dark:text-neon">{destacada.duracion}</p>
-          <a href="#mapa-section" class="btn-accent mt-5">
-            Ver en el mapa
-          </a>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <button type="button" class="btn-accent btn-ver-ruta" data-ruta-id={destacada.id} data-i18n="routes.guide">
+              Guiarme en el mapa
+            </button>
+            <a href="#experiencias" class="border border-marino/20 px-5 py-2.5 text-sm font-semibold heading dark:border-neon/30" data-i18n="routes.book">
+              Reservar experiencia
+            </a>
+          </div>
         </div>
 
         <ol class="flex flex-1 flex-col gap-2 sm:max-w-md">
-          {destacada.lugares.map((l, i) => (
+          {nombres(destacada.lugares).map((l, i) => (
             <li class="ruta-step">
               <span class="ruta-step-num">{i + 1}</span>
               <span class="font-medium">{l}</span>
@@ -45,12 +56,10 @@ const resto = rutas.filter((r) => !r.destacada);
   {
     resto.map((ruta) => (
       <article class="overflow-hidden rounded-xl border border-marino/10 bg-white shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-[#143454]">
-        
-        {/* 📷 Tarjeta Visual: Imagen añadida para cumplir con el requerimiento */}
         <div class="h-48 w-full overflow-hidden bg-marino/5">
-          <img 
-            src={ruta.foto || "/img/default-ruta.jpg"} 
-            alt={ruta.nombre} 
+          <img
+            src={ruta.foto || '/img/killi.webp'}
+            alt={ruta.nombre}
             class="h-full w-full object-cover"
             loading="lazy"
           />
@@ -65,9 +74,12 @@ const resto = rutas.filter((r) => !r.destacada);
           </div>
           <h3 class="mt-2 font-sans text-xl font-bold heading">{ruta.nombre}</h3>
           <p class="text-soft mt-2 text-sm line-clamp-2">{ruta.descripcion}</p>
-          
-          <ul class="text-soft-xs mt-4 space-y-1.5 text-sm">
-            {ruta.lugares.map((l) => (
+          <p class="mt-2 text-sm font-bold heading">
+            <span data-i18n="routes.from">desde</span>{' '}
+            <span data-price-bob={ruta.precioBob}>Bs {ruta.precioBob}</span>
+          </p>
+          <ul class="text-soft-xs mt-3 space-y-1.5 text-sm">
+            {nombres(ruta.lugares).map((l) => (
               <li class="flex gap-2">
                 <span class="text-dorado dark:text-neon" aria-hidden="true">
                   ·
@@ -76,8 +88,26 @@ const resto = rutas.filter((r) => !r.destacada);
               </li>
             ))}
           </ul>
+          <button
+            type="button"
+            class="btn-ver-ruta mt-4 text-sm font-semibold text-dorado underline-offset-2 hover:underline dark:text-neon"
+            data-ruta-id={ruta.id}
+            data-i18n="routes.see"
+          >
+            Ver línea guía en el mapa →
+          </button>
         </div>
       </article>
     ))
   }
 </div>
+
+<script>
+  document.querySelectorAll('.btn-ver-ruta').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-ruta-id');
+      document.getElementById('mapa-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.dispatchEvent(new CustomEvent('lpt-show-route', { detail: { id } }));
+    });
+  });
+</script>

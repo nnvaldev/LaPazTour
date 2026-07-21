@@ -1,0 +1,173 @@
+---
+import { monedas } from '../data/data.js';
+const foraneas = monedas.filter((m) => m.code !== 'BOB');
+---
+<section id="conversor" class="mb-14 scroll-mt-6" aria-labelledby="conversor-titulo">
+  <div class="mb-6 max-w-2xl">
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-dorado dark:text-neon" data-i18n="fx.eyebrow">
+      Para el turista perdido con la plata
+    </p>
+    <h2 id="conversor-titulo" class="mt-2 font-sans text-3xl font-extrabold heading md:text-4xl" data-i18n="fx.title">
+      ¿Cuánto vale mi plata acá?
+    </h2>
+    <p class="text-soft mt-2" data-i18n="fx.sub">
+      Tasas al dólar paralelo (calle). Referencia: 1 USD ≈ Bs 10.80.
+    </p>
+  </div>
+
+  <div class="conversor-box grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
+    <div class="rounded-sm border border-dorado/30 bg-white p-5 dark:border-neon/25 dark:bg-[#143454] md:p-6">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide text-marino/60 dark:text-neon/80" data-i18n="fx.have">Tengo</span>
+          <div class="mt-1 flex gap-2">
+            <input
+              id="montoOrigen"
+              type="number"
+              min="0"
+              step="any"
+              value="50"
+              class="w-full border border-marino/15 bg-celeste/40 px-3 py-2.5 font-semibold text-marino outline-none focus:border-dorado dark:border-white/15 dark:bg-marino dark:text-white"
+            />
+            <select
+              id="monedaOrigen"
+              class="min-w-[9rem] border border-marino/15 bg-white px-2 py-2.5 text-sm font-semibold text-marino outline-none dark:border-white/15 dark:bg-marino dark:text-white"
+            >
+              {
+                foraneas.map((m) => (
+                  <option value={m.code} selected={m.code === 'USD'}>
+                    {m.flag} {m.code}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+        </label>
+
+        <label class="block">
+          <span class="text-xs font-semibold uppercase tracking-wide text-marino/60 dark:text-neon/80" data-i18n="fx.equals">Equivale a</span>
+          <div class="mt-1 flex gap-2">
+            <output
+              id="montoDestino"
+              class="flex w-full items-center border border-dorado/40 bg-dorado/10 px-3 py-2.5 font-extrabold text-marino dark:border-neon/40 dark:bg-neon/10 dark:text-neon"
+            >Bs 540.00</output>
+            <span class="flex min-w-[5rem] items-center justify-center gap-1 border border-marino/10 bg-marino px-2 text-sm font-bold text-dorado dark:bg-neon dark:text-marino">
+              🇧🇴 BOB
+            </span>
+          </div>
+        </label>
+      </div>
+
+      <p id="tasaHint" class="text-soft-xs mt-4 text-sm">🇺🇸 1 USD ≈ Bs 10.80 · paralelo</p>
+
+      <div class="mt-5">
+        <p class="text-xs font-semibold uppercase tracking-wide text-marino/60 dark:text-neon/80" data-i18n="fx.pricesIn">Ver precios del sitio en</p>
+        <div id="chipsMoneda" class="mt-2 flex flex-wrap gap-2">
+          {
+            monedas.map((m) => (
+              <button
+                type="button"
+                class="chip-moneda inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold ring-1 ring-marino/15 transition dark:ring-white/15"
+                data-code={m.code}
+                aria-pressed={m.code === 'USD' ? 'true' : 'false'}
+              >
+                <span aria-hidden="true">{m.flag}</span>
+                {m.code}
+              </button>
+            ))
+          }
+        </div>
+        <p class="text-soft-xs mt-2 text-xs" data-i18n="fx.pricesHint">
+          Los precios de entradas y tours se actualizan en toda la página.
+        </p>
+      </div>
+    </div>
+
+    <aside class="flex flex-col justify-between border border-marino/10 bg-marino p-5 text-white dark:border-neon/20">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wider text-dorado" data-i18n="fx.tip">Tip de supervivencia</p>
+        <p class="mt-3 text-sm leading-relaxed text-white/85">
+          Un almuerzo menú ≈ <strong class="text-dorado" data-price-bob="25">Bs 25</strong>.
+          Ticket teleférico ≈ <strong class="text-dorado" data-price-bob="3">Bs 3</strong>.
+          Entrada museo ≈ <strong class="text-dorado" data-price-bob="20">Bs 20</strong>.
+        </p>
+        <p class="mt-4 text-xs text-white/55" data-i18n="fx.parallel">
+          🇺🇸 1 USD = Bs 10.80 (paralelo)
+        </p>
+      </div>
+      <p class="mt-6 text-xs text-white/50" data-i18n="fx.demo">Demo · tasas calle / paralelo (no oficial)</p>
+    </aside>
+  </div>
+</section>
+
+<script>
+  import { monedas, bobA } from '../data/data.js';
+
+  const KEY = 'lpt-moneda';
+
+  function getCode() {
+    return localStorage.getItem(KEY) || 'USD';
+  }
+
+  function setCode(code) {
+    localStorage.setItem(KEY, code);
+    window.dispatchEvent(new CustomEvent('lpt-currency-change', { detail: { code } }));
+  }
+
+  function convertir() {
+    const monto = Number(/** @type {HTMLInputElement} */ (document.getElementById('montoOrigen')).value) || 0;
+    const code = /** @type {HTMLSelectElement} */ (document.getElementById('monedaOrigen')).value;
+    const m = monedas.find((x) => x.code === code);
+    if (!m) return;
+    const bob = monto * m.porBob;
+    const out = document.getElementById('montoDestino');
+    if (out) out.textContent = `Bs ${bob.toFixed(2)}`;
+    const hint = document.getElementById('tasaHint');
+    if (hint) {
+      const tasa = m.porBob < 0.1 ? m.porBob.toFixed(4) : m.porBob.toFixed(2);
+      hint.textContent = `${m.flag} 1 ${code} ≈ Bs ${tasa} · paralelo`;
+    }
+  }
+
+  function formatPrecio(bob, code) {
+    if (code === 'BOB') return `🇧🇴 Bs ${Number(bob).toFixed(0)}`;
+    const r = bobA(Number(bob), code);
+    const m = monedas.find((x) => x.code === code);
+    return `${m?.flag || ''} ${r.texto} · Bs ${Number(bob).toFixed(0)}`;
+  }
+
+  function refrescarPrecios() {
+    const code = getCode();
+    document.querySelectorAll('[data-price-bob]').forEach((el) => {
+      const bob = el.getAttribute('data-price-bob');
+      el.textContent = formatPrecio(bob, code);
+    });
+    document.querySelectorAll('.chip-moneda').forEach((btn) => {
+      const active = btn.getAttribute('data-code') === code;
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      btn.classList.toggle('is-active', active);
+    });
+  }
+
+  document.getElementById('montoOrigen')?.addEventListener('input', convertir);
+  document.getElementById('monedaOrigen')?.addEventListener('change', convertir);
+
+  document.querySelectorAll('.chip-moneda').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const code = btn.getAttribute('data-code');
+      if (!code) return;
+      setCode(code);
+      const sel = /** @type {HTMLSelectElement | null} */ (document.getElementById('monedaOrigen'));
+      if (sel && code !== 'BOB') sel.value = code;
+      convertir();
+      refrescarPrecios();
+    });
+  });
+
+  window.addEventListener('lpt-currency-change', refrescarPrecios);
+  window.lptFormatPrecio = formatPrecio;
+  window.lptGetMoneda = getCode;
+
+  convertir();
+  refrescarPrecios();
+</script>
