@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* Claro: blanco + dorado + marino */
-    --marino: #0b1f3a;
+    --marino: #1a3a6b;
     --dorado: #c9a227;
     --neon: #2fffa0;
     --celeste: #d6eef8;
@@ -19,6 +19,8 @@
     --ring: 201 162 39;
     --accent: #c9a227;
     --accent-soft: rgba(201, 162, 39, 0.12);
+    --surface: 255 255 255;
+    --panel: 245 245 245;
   }
 
   html.dark {

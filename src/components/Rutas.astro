@@ -44,25 +44,39 @@ const resto = rutas.filter((r) => !r.destacada);
 <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
   {
     resto.map((ruta) => (
-      <article class="border-t-2 border-dorado/40 pt-5 dark:border-neon/30">
-        <div class="flex flex-wrap items-center gap-2">
-          <p class="text-xs font-semibold uppercase tracking-widest text-dorado dark:text-neon">{ruta.duracion}</p>
-          {ruta.accesible && (
-            <span class="text-[10px] font-bold uppercase tracking-wide text-verde-ok dark:text-neon">· Accesible</span>
-          )}
+      <article class="overflow-hidden rounded-xl border border-marino/10 bg-white shadow-sm transition hover:shadow-md dark:border-white/10 dark:bg-[#143454]">
+        
+        {/* 📷 Tarjeta Visual: Imagen añadida para cumplir con el requerimiento */}
+        <div class="h-48 w-full overflow-hidden bg-marino/5">
+          <img 
+            src={ruta.foto || "/img/default-ruta.jpg"} 
+            alt={ruta.nombre} 
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
         </div>
-        <h3 class="mt-2 font-sans text-xl font-bold heading">{ruta.nombre}</h3>
-        <p class="text-soft mt-2 text-sm">{ruta.descripcion}</p>
-        <ul class="text-soft-xs mt-4 space-y-1.5 text-sm">
-          {ruta.lugares.map((l) => (
-            <li class="flex gap-2">
-              <span class="text-dorado dark:text-neon" aria-hidden="true">
-                ·
-              </span>
-              {l}
-            </li>
-          ))}
-        </ul>
+
+        <div class="p-5">
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="text-xs font-semibold uppercase tracking-widest text-dorado dark:text-neon">{ruta.duracion}</p>
+            {ruta.accesible && (
+              <span class="text-[10px] font-bold uppercase tracking-wide text-verde-ok dark:text-neon">· Accesible</span>
+            )}
+          </div>
+          <h3 class="mt-2 font-sans text-xl font-bold heading">{ruta.nombre}</h3>
+          <p class="text-soft mt-2 text-sm line-clamp-2">{ruta.descripcion}</p>
+          
+          <ul class="text-soft-xs mt-4 space-y-1.5 text-sm">
+            {ruta.lugares.map((l) => (
+              <li class="flex gap-2">
+                <span class="text-dorado dark:text-neon" aria-hidden="true">
+                  ·
+                </span>
+                {l}
+              </li>
+            ))}
+          </ul>
+        </div>
       </article>
     ))
   }
